@@ -17,7 +17,6 @@ namespace ProyectoONPE
             if (!IsPostBack)
             {
                 CargarDepartamentos();
-                // Llamada inicial: Tipo "Nacional", Valor "25" (o "Todos")
                 ActualizarDatos("Nacional", "25");
             }
         }
@@ -31,27 +30,62 @@ namespace ProyectoONPE
             ddlDepartamento.Items.Insert(0, new ListItem("-- SELECCIONE --", "0"));
         }
 
-        // CORRECCIÓN: Ahora recibe dos parámetros para coincidir con la Lógica y Datos
+
         private void ActualizarDatos(string tipo, string valor)
         {
-            var lista = objLogica.ListarParticipacion(tipo, valor);
+            Participacion resumen = null;
+            List<Participacion> lista = null;
+
+            if (tipo == "Distrito")
+            {
+                lista = objLogica.ListarParticipacion("Distrito", ddlProvincia.SelectedItem.Text);
+
+                if (lista != null)
+                {
+                    resumen = lista.FirstOrDefault(x => x.DPD.Trim().Equals(valor.Trim(), StringComparison.OrdinalIgnoreCase));
+                }
+            }
+            else
+            {
+                lista = objLogica.ListarParticipacion(tipo, valor);
+            }
 
             if (lista != null && lista.Count > 0)
             {
-                var resumen = lista[0];
+                if (tipo != "Distrito")
+                {
+                    resumen = new Participacion
+                    {
+                        EH = lista.Sum(x => x.EH),
+                        TV = lista.Sum(x => x.TV),
+                        TA = lista.Sum(x => x.TA)
+                    };
 
-                // Asignación de etiquetas principales
-                lblHabilesTotal.Text = resumen.EH.ToString("N0");
-                lblParticipacionTotal.Text = resumen.TV.ToString("N0");
-                lblAusentismoTotal.Text = resumen.TA.ToString("N0");
+                    if (resumen.EH > 0)
+                    {
+                        lblParticipacionPorc.Text = ((double)resumen.TV / resumen.EH * 100).ToString("N3");
+                        lblAusentismoPorc.Text = ((double)resumen.TA / resumen.EH * 100).ToString("N3");
+                    }
+                }
+                else if (resumen != null)
+                {
+                    lblParticipacionPorc.Text = resumen.PTV.Replace("%", "").Trim();
+                    lblAusentismoPorc.Text = resumen.PTA.Replace("%", "").Trim();
+                }
 
-                // Limpiamos el símbolo % para que el gráfico de Google lo lea como número
-                lblParticipacionPorc.Text = resumen.PTV.Replace(" %", "").Trim();
-                lblAusentismoPorc.Text = resumen.PTA.Replace(" %", "").Trim();
+                if (resumen != null)
+                {
+                    lblHabilesTotal.Text = resumen.EH.ToString("N0");
+                    lblParticipacionTotal.Text = resumen.TV.ToString("N0");
+                    lblAusentismoTotal.Text = resumen.TA.ToString("N0");
+                }
 
-                // Refrescar la tabla
+                lblAmbito.Text = valor;
+
                 rpParticipacion.DataSource = lista;
                 rpParticipacion.DataBind();
+
+                ScriptManager.RegisterStartupScript(this, GetType(), "graph", "drawChart();", true);
             }
         }
 
@@ -63,7 +97,6 @@ namespace ProyectoONPE
                 string nombreDep = ddlDepartamento.SelectedItem.Text;
                 lblAmbito.Text = nombreDep;
 
-                // Cargar Provincias
                 ddlProvincia.DataSource = objLogica.ListarProvincias(int.Parse(idDep));
                 ddlProvincia.DataTextField = "Detalle";
                 ddlProvincia.DataValueField = "idProvincia";
@@ -72,7 +105,6 @@ namespace ProyectoONPE
 
                 ddlDistrito.Items.Clear();
 
-                // LLAMADA CORREGIDA: Tipo "Departamento", Valor el nombre
                 ActualizarDatos("Departamento", nombreDep);
             }
         }
@@ -85,14 +117,12 @@ namespace ProyectoONPE
                 string nombreProv = ddlProvincia.SelectedItem.Text;
                 lblAmbito.Text = nombreProv;
 
-                // Cargar Distritos
                 ddlDistrito.DataSource = objLogica.ListarDistritos(int.Parse(idProv));
                 ddlDistrito.DataTextField = "Detalle";
                 ddlDistrito.DataValueField = "idDistrito";
                 ddlDistrito.DataBind();
                 ddlDistrito.Items.Insert(0, new ListItem("-- SELECCIONE --", "0"));
 
-                // LLAMADA CORREGIDA: Tipo "Provincia", Valor el nombre
                 ActualizarDatos("Provincia", nombreProv);
             }
         }
@@ -101,11 +131,10 @@ namespace ProyectoONPE
         {
             if (ddlDistrito.SelectedValue != "0")
             {
-                string nombreDist = ddlDistrito.SelectedItem.Text;
-                lblAmbito.Text = nombreDist;
+                string nombreProvincia = ddlProvincia.SelectedItem.Text;
+                string nombreDistrito = ddlDistrito.SelectedItem.Text;
 
-                // LLAMADA CORREGIDA: Ajustado a lo que pida tu SP de distritos
-                ActualizarDatos("Distrito", nombreDist);
+                ActualizarDatos("Distrito", nombreDistrito);
             }
         }
     }

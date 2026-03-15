@@ -204,16 +204,14 @@ namespace ProyectoONPE.Datos
             using (SqlConnection cn = Conectar())
             {
                 string sp = "";
-                //Selecciona el Procedimiento almacenado segun el tipo de consulta
                 if (tipo == "Nacional") sp = "usp_getVotos";
                 else if (tipo == "Departamento") sp = "usp_getVotosDepartamento";
                 else if (tipo == "Provincia") sp = "usp_getVotosProvincia";
-                else sp = "usp_getVotosProvincia"; 
+                else if (tipo == "Distrito") sp = "usp_getVotosProvincia"; 
 
                 SqlCommand cmd = new SqlCommand(sp, cn);
                 cmd.CommandType = CommandType.StoredProcedure;
 
-                //Asignacion
                 if (tipo == "Nacional")
                 {
                     cmd.Parameters.AddWithValue("@inicio", 1);
@@ -223,11 +221,11 @@ namespace ProyectoONPE.Datos
                 {
                     cmd.Parameters.AddWithValue("@Departamento", valor);
                 }
-                else
+                else if (tipo == "Provincia" || tipo == "Distrito")
                 {
-                    // Para Provincia y Distrito usamos @Provincia (según tus SPs actuales)
                     cmd.Parameters.AddWithValue("@Provincia", valor);
                 }
+                
 
                 cn.Open();
                 using (SqlDataReader dr = cmd.ExecuteReader())
@@ -236,12 +234,12 @@ namespace ProyectoONPE.Datos
                     {
                         lista.Add(new Participacion
                         {
-                            DPD = dr["DPD"].ToString(), //Nombre del ambito
-                            TV = Convert.ToInt64(dr["TV"]), //Total votantes
-                            PTV = dr["PTV"].ToString(), //Participacion
-                            TA = Convert.ToInt64(dr["TA"]), //Total ausentes
-                            PTA = dr["PTA"].ToString(), //Ausentismo
-                            EH = Convert.ToInt64(dr["EH"]) //Electores Habiles
+                            DPD = dr["DPD"].ToString().Trim(),
+                            TV = Convert.ToInt64(dr["TV"]),
+                            PTV = dr["PTV"].ToString(),
+                            TA = Convert.ToInt64(dr["TA"]),
+                            PTA = dr["PTA"].ToString(),
+                            EH = Convert.ToInt64(dr["EH"])
                         });
                     }
                 }

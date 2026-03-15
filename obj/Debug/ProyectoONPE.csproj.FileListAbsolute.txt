@@ -1,5 +1,3 @@
-C:\Users\Lui\source\repos\ProyectoONPE\ProyectoONPE\obj\Debug\ProyectoONPE.csproj.AssemblyReference.cache
-C:\Users\Lui\source\repos\ProyectoONPE\ProyectoONPE\obj\Debug\ProyectoONPE.csproj.CoreCompileInputs.cache
 C:\Users\Lui\source\repos\ProyectoONPE\ProyectoONPE\bin\ProyectoONPE.dll.config
 C:\Users\Lui\source\repos\ProyectoONPE\ProyectoONPE\bin\ProyectoONPE.dll
 C:\Users\Lui\source\repos\ProyectoONPE\ProyectoONPE\bin\ProyectoONPE.pdb
@@ -56,6 +54,8 @@ C:\Users\Lui\source\repos\ProyectoONPE\ProyectoONPE\bin\Microsoft.CodeDom.Provid
 C:\Users\Lui\source\repos\ProyectoONPE\ProyectoONPE\bin\System.Data.SqlClient.dll
 C:\Users\Lui\source\repos\ProyectoONPE\ProyectoONPE\bin\System.Data.SqlClient.xml
 C:\Users\Lui\source\repos\ProyectoONPE\ProyectoONPE\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+C:\Users\Lui\source\repos\ProyectoONPE\ProyectoONPE\obj\Debug\ProyectoONPE.csproj.AssemblyReference.cache
+C:\Users\Lui\source\repos\ProyectoONPE\ProyectoONPE\obj\Debug\ProyectoONPE.csproj.CoreCompileInputs.cache
 C:\Users\Lui\source\repos\ProyectoONPE\ProyectoONPE\obj\Debug\Proyecto.04049321.Up2Date
 C:\Users\Lui\source\repos\ProyectoONPE\ProyectoONPE\obj\Debug\ProyectoONPE.dll
 C:\Users\Lui\source\repos\ProyectoONPE\ProyectoONPE\obj\Debug\ProyectoONPE.pdb

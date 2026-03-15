@@ -22,8 +22,6 @@ namespace ProyectoONPE
 
         private void CargarResumenGeneral()
         {
-            // Supongamos que creamos un método que nos de los totales globales
-            // Por ahora pondremos los datos de la imagen para que lo veas funcionando
             double habiles = 22901954;
             double votantes = 18342896;
             double ausentes = habiles - votantes;

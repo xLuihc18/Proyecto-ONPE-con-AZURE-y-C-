@@ -14,7 +14,7 @@ namespace ProyectoONPE
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            // Opcional: Código inicial
+            
         }
 
         protected void btnBuscar_Click(object sender, EventArgs e)
@@ -30,7 +30,7 @@ namespace ProyectoONPE
                 pnlError.Visible = false;
                 divDetalleMesa.Visible = true;
 
-                // Información General
+                //Información General
                 lblMesaNumero.Text = res.idGrupoVotacion;
                 lblCopia.Text = "96A";
 
@@ -40,12 +40,12 @@ namespace ProyectoONPE
                 lblLocalInfo.Text = res.RazonSocial;
                 lblDireccionInfo.Text = res.Direccion;
 
-                // Mesa Info
+                //Mesa 
                 lblElectoresHabiles.Text = res.ElectoresHabiles.ToString();
                 lblTotalVotantes.Text = res.TotalVotantes.ToString();
                 lblEstadoActa.Text = "ACTA ELECTORAL NORMAL";
 
-                // Votos detallados
+                //Votos detallados
                 lblVotosPPK.Text = res.P1.ToString();
                 lblVotosKeiko.Text = res.P2.ToString();
                 lblVotosBlanco.Text = res.VotosBlancos.ToString();
